@@ -1,0 +1,41 @@
+﻿@page "/categories"
+
+<h3>ListeCategorie</h3>
+
+<div style="text-align: center; margin-bottom: 10px;">
+
+    <MudIconButton Icon="@Icons.Material.Filled.Add"
+                   Color="Color.Primary"
+                   Variant="Variant.Filled"
+                   OnClick="() => OuvrirDialogAjouterModifierCategorieAsync()" />
+</div>
+
+<MudGrid>
+
+    @foreach (var element in listeCategorie)
+    {
+        <MudItem xs="12" sm="6" md="4" lg="3">
+            <MudCard>
+                <MudCardContent>
+                    <MudText>@element.Nom</MudText>
+                </MudCardContent>
+
+                <MudCardActions>
+
+                    <!-- btn modifier -->
+                    <MudIconButton Color="Color.Warning"
+                                   Variant="Variant.Filled"
+                                   Icon="@Icons.Material.Filled.Edit"
+                                   OnClick="() => OuvrirDialogAjouterModifierCategorieAsync(element)" /> &nbsp;
+
+                    <!-- btn supprimer -->
+                    <MudIconButton Color="Color.Error"
+                                   Variant="Variant.Filled"
+                                   Icon="@Icons.Material.Filled.Delete"
+                                   OnClick="() => SupprimerAsync(element)" />
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    }
+    
+</MudGrid>

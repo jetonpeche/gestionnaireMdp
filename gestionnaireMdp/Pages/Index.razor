@@ -1,0 +1,62 @@
+﻿@page "/"
+
+<h1>Liste Identifiants</h1>
+
+<div style="text-align: center; margin-bottom: 10px;">
+
+    <MudIconButton Icon="@Icons.Material.Filled.Add"
+                   Color="Color.Primary"
+                   Variant="Variant.Filled"
+                   OnClick="() => OuvrirDialogAjouterModifierIdentifiantAsync()" />
+</div>
+
+<!-- liste des categories -->
+<MudSelect Margin="Margin.Dense" T="int" ValueChanged="@FilterIdentifiantParCategorieAsync"
+           Label="Liste des catégories" Variant="Variant.Outlined" Style="margin-bottom: 10px">
+
+    <MudSelectItem Value="0">Tout</MudSelectItem>
+
+    @foreach (var element in listeCategorie)
+    {
+        <MudSelectItem Value="@element.Id">@element.Nom - @element.Id</MudSelectItem>
+    }
+</MudSelect>
+
+<!-- liste des identifiants -->
+<MudGrid Spacing="2">
+    @foreach(var element in listeIdentifiant)
+    {
+        <MudItem xs="12" sm="6" md="4" lg="4" Style="height: 120px" @onclick="() => OuvrirModalInfosAsync(element)">
+            <MudCard Elevation="3" Style="height: 105px;">
+
+                <!-- titre -->
+                <MudCardContent Style="padding-top: 5px; padding-bottom: 5px;">
+                    <MudText>@(string.IsNullOrEmpty(element.Titre) ? "Login" : element.Titre)</MudText>
+
+                    @if(!string.IsNullOrEmpty(element.UrlSiteWeb))
+                    {
+                        <MudLink Typo="Typo.body2" Href="@element.UrlSiteWeb">Lien web</MudLink>
+                    }
+                </MudCardContent>
+
+                <!-- btn modifier / supprimer -->
+                <MudCardActions Class="justify-content-end" Style="@(string.IsNullOrEmpty(element.UrlSiteWeb) ? "padding-top: 28px" : "")"> 
+
+                    <!-- btn modifier -->
+                    <MudIconButton Color="Color.Warning" 
+                                   Variant="Variant.Filled"
+                                   Icon="@Icons.Material.Filled.Edit"
+                                   OnClick="() => OuvrirDialogAjouterModifierIdentifiantAsync(element)" /> &nbsp;
+
+                    <!-- btn supprimer -->
+                    <MudIconButton Color="Color.Error" 
+                                   Variant="Variant.Filled"
+                                   Icon="@Icons.Material.Filled.Delete" 
+                                   OnClick="() => SupprimerAsync(element)"/>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    }
+</MudGrid>
+
+<div id="msg"></div>
