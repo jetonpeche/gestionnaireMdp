@@ -273,8 +273,6 @@ public sealed class BddService
         if (_listeDonnee.Count == 0)
             return "";
 
-       // _ignorerClePrimaire = false;
-
         StringBuilder stringBuilderNomProprieter = new();
         StringBuilder stringBuilderInsertInto = new();
 
