@@ -38,6 +38,31 @@ public partial class DialogAjouterModifierCategorie
             return;
         }
 
+        if(estPourAjouter)
+        {
+            int id = await CategorieService.AjouterAsync(Categorie);
 
+            if (id == default)
+                OutilService.AfficherToastr("La catégorie n'a pas pu être ajouter", Severity.Error);
+            else
+            {
+                Categorie.Id = id;
+                OutilService.AfficherToastr("La catégorie a été ajouté", Severity.Success);
+
+                MudDialog.Close(Categorie);
+            }
+        }
+        else
+        {
+            bool estModifier = await CategorieService.ModifierAsync(Categorie);
+
+            if (estModifier)
+            {
+                OutilService.AfficherToastr("La catégorie a été modifié", Severity.Success);
+                MudDialog.Close(Categorie);
+            }    
+            else
+                OutilService.AfficherToastr("La catégorie n'a pas été modifié", Severity.Error);
+        }
     }
 }

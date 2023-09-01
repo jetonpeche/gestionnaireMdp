@@ -256,7 +256,7 @@ public sealed class BddService
     {
         await InitAsync();
 
-        List<T> listeDonnee = await connexion.QueryAsync<T>($"SELECT {string.Join(',', typeof(T).GetProperties().Select(x => x.Name))} FROM {typeof(T).Name} WHERE id IN ({string.Join(',', _listeId)})");
+        List<T> listeDonnee = await connexion.QueryAsync<T>($"SELECT * FROM {typeof(T).Name} WHERE id IN ({string.Join(',', _listeId)})");
 
         string insertIntoString = InitInsertIntoSQL(listeDonnee, true);
         string fichierBase64 = TransformerDonneeEnBase64(insertIntoString);
@@ -273,6 +273,8 @@ public sealed class BddService
         if (_listeDonnee.Count == 0)
             return "";
 
+       // _ignorerClePrimaire = false;
+
         StringBuilder stringBuilderNomProprieter = new();
         StringBuilder stringBuilderInsertInto = new();
 
@@ -283,7 +285,7 @@ public sealed class BddService
         {
             if(_ignorerClePrimaire)
             {
-                if (listePropriete[i].GetCustomAttribute(typeof(PrimaryKeyAttribute)) == default)
+                if (listePropriete[i].GetCustomAttribute(typeof(PrimaryKeyAttribute)) != default)
                     continue;
             }
 
@@ -300,6 +302,12 @@ public sealed class BddService
             // ajout des valeurs des proprietés
             for (int j = 0; j < listePropriete.Length; j++)
             {
+                if (_ignorerClePrimaire)
+                {
+                    if (listePropriete[j].GetCustomAttribute(typeof(PrimaryKeyAttribute)) != default)
+                        continue;
+                }
+
                 stringBuilderInsertInto.Append($"'{listePropriete[j].GetValue(_listeDonnee[i])}'");
 
                 if (j == listePropriete.Length - 1)

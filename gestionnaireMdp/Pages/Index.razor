@@ -42,6 +42,12 @@
                 <!-- btn modifier / supprimer -->
                 <MudCardActions Class="justify-content-end" Style="@(string.IsNullOrEmpty(element.UrlSiteWeb) ? "padding-top: 28px" : "")"> 
 
+                    <!-- btn exporter -->
+                    <MudIconButton Color="Color.Primary" 
+                                   Variant="Variant.Filled"
+                                   Icon="@Icons.Material.Filled.ImportExport" 
+                                   OnClick="() => ExportAsync(element.Id)"/>
+
                     <!-- btn modifier -->
                     <MudIconButton Color="Color.Warning" 
                                    Variant="Variant.Filled"

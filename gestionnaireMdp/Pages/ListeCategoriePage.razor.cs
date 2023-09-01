@@ -21,7 +21,7 @@ public partial class ListeCategoriePage
 
     async Task OuvrirDialogAjouterModifierCategorieAsync(Categorie _categorie = null)
     {
-        DialogParameters param = null;
+        DialogParameters param = new();
 
         if(_categorie is not null)
         {
@@ -31,10 +31,7 @@ public partial class ListeCategoriePage
                 Nom = _categorie.Nom
             };
 
-            param = new()
-            {
-                ["Categorie"] = categorieTempo
-            };
+            param.Add("Categorie", categorieTempo);
         }
 
         var dialogRef = await DialogService.ShowAsync<DialogAjouterModifierCategorie>("", param);
@@ -45,7 +42,7 @@ public partial class ListeCategoriePage
         {
             Categorie nouvelleCategorie = resultatDialog.Data as Categorie;
 
-            if (_categorie is not null)
+            if (_categorie is null)
                 listeCategorie.Add(nouvelleCategorie);
             else
             {

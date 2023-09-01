@@ -77,9 +77,12 @@ public partial class DialogAjouterModifierIdentifiant
             bool estModifier = await IdentifiantService.ModifierAsync(Identifiant);
 
             if (estModifier)
-                MudDialog.Close(Identifiant);
-            else
+            {
                 OutilService.AfficherToastr("L'identifiant a été modifié", Severity.Success);
+                MudDialog.Close(Identifiant);
+            }     
+            else
+                OutilService.AfficherToastr("L'identifiant n'a pas été modifié", Severity.Error);
         }
     }
 }

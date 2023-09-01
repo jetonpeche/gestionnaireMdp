@@ -129,6 +129,12 @@ public partial class Index: IAsyncDisposable
         await DialogService.ShowAsync<DialogInfos>("Infos identifiant", param);
     }
 
+    async Task ExportAsync(int _idIndentifiant)
+    {
+        var bddExport = await IdentifiantService.ExporterAsync(new int[] { _idIndentifiant });
+        await jSObjectReference.InvokeVoidAsync("FaireTelecharger", bddExport.NomFichier, bddExport.FichierBase64);
+    }
+
     private async Task ExporterBdd()
     {
         try
