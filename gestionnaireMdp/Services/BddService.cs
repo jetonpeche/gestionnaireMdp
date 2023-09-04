@@ -131,7 +131,6 @@ public sealed class BddService
     /// <summary>
     /// Pour des requetes particulieres
     /// </summary>
-    /// <typeparam name="T">Classe de la table de la bdd</typeparam>
     /// <param name="_requeteSQL">requete sql</param>
     /// <returns></returns>
     public async Task<bool> SupprimerAsync(string _requeteSQL)
@@ -276,7 +275,7 @@ public sealed class BddService
         StringBuilder stringBuilderNomProprieter = new();
         StringBuilder stringBuilderInsertInto = new();
 
-        PropertyInfo[] listePropriete = typeof(T).GetProperties();
+        PropertyInfo[] listePropriete = typeof(T).GetProperties().Where(x => x.GetCustomAttribute(typeof(IgnoreAttribute)) == default).ToArray();
 
         // liste des noms des proprietés de la classe
         for (int i = 0; i < listePropriete.Length; i++)

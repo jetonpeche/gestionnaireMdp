@@ -7,7 +7,12 @@
     <MudIconButton Icon="@Icons.Material.Filled.Add"
                    Color="Color.Primary"
                    Variant="Variant.Filled"
-                   OnClick="() => OuvrirDialogAjouterModifierIdentifiantAsync()" />
+                   OnClick="() => OuvrirDialogAjouterModifierIdentifiantAsync()" /> &nbsp;
+
+    <MudIconButton Icon="@Icons.Material.Filled.Download"
+                   Color="Color.Primary"
+                   Variant="Variant.Filled"
+                   OnClick="Test" /> &nbsp;
 </div>
 
 <!-- liste des categories -->
@@ -30,8 +35,13 @@
             <MudCard Elevation="3" Style="height: 105px;">
 
                 <!-- titre -->
-                <MudCardContent Style="padding-top: 5px; padding-bottom: 5px;">
+                <MudCardContent Style="padding-top: 5px; padding-bottom: 5px; position: relative">
                     <MudText>@(string.IsNullOrEmpty(element.Titre) ? "Login" : element.Titre)</MudText>
+
+                    <!-- checkbox exporter oui / non -->
+                    <MudCheckBox Style="position: absolute; right: 0; top: 0;" 
+                                 Color="Color.Primary" 
+                                 @bind-Checked="element.EstChoisi" />
 
                     @if(!string.IsNullOrEmpty(element.UrlSiteWeb))
                     {
@@ -40,13 +50,13 @@
                 </MudCardContent>
 
                 <!-- btn modifier / supprimer -->
-                <MudCardActions Class="justify-content-end" Style="@(string.IsNullOrEmpty(element.UrlSiteWeb) ? "padding-top: 28px" : "")"> 
+                <MudCardActions Class="justify-content-end" Style="@(string.IsNullOrEmpty(element.UrlSiteWeb) ? "padding-top: 28px" : "")">
 
                     <!-- btn exporter -->
                     <MudIconButton Color="Color.Primary" 
                                    Variant="Variant.Filled"
-                                   Icon="@Icons.Material.Filled.ImportExport" 
-                                   OnClick="() => ExportAsync(element.Id)"/>
+                                   Icon="@Icons.Material.Filled.Download" 
+                                   OnClick="() => ExportAsync(element.Id)"/> &nbsp;
 
                     <!-- btn modifier -->
                     <MudIconButton Color="Color.Warning" 

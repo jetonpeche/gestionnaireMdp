@@ -41,6 +41,12 @@ public partial class Index: IAsyncDisposable
         listeIdentifiant = await IdentifiantService.ListerAsync(_id);
     }
 
+    async Task Test()
+    {
+        int[] liste = listeIdentifiant.Where(x => x.EstChoisi == true).Select(x => x.Id).ToArray();
+        await ExportAsync(liste);
+    }
+
     async Task SupprimerAsync(Identifiant _identifiant)
     {
         bool etat = await ToastrService.MessageConfirmationAsync("Suppression Identifiant", 
@@ -127,6 +133,12 @@ public partial class Index: IAsyncDisposable
         };
 
         await DialogService.ShowAsync<DialogInfos>("Infos identifiant", param);
+    }
+
+    async Task ExportAsync(int[] _listeIdIndentifiant)
+    {
+        var bddExport = await IdentifiantService.ExporterAsync(_listeIdIndentifiant);
+        await jSObjectReference.InvokeVoidAsync("FaireTelecharger", bddExport.NomFichier, bddExport.FichierBase64);
     }
 
     async Task ExportAsync(int _idIndentifiant)

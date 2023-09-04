@@ -20,4 +20,7 @@ public sealed class Identifiant: IBddModels
 
     [Indexed, Column("idCategorie"), NotNull]
     public int IdCategorie { get; set; }
+
+    [Ignore]
+    public bool EstChoisi { get; set; }
 }
