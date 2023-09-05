@@ -18,29 +18,61 @@
                     </MudSelect>
                 </MudItem>
 
-                <!-- input url -->
-                <MudItem xs="12" sm="12" md="6" lg="6">
-                    <MudTextField @bind-Value="Identifiant.UrlSiteWeb" InputType="InputType.Url" Variant="Variant.Outlined" Label="Url web" MaxLength="500" />
-                </MudItem>
-
                 <!-- input titre -->
                 <MudItem xs="12" sm="6" md="6" lg="6">
                     <MudTextField @bind-Value="Identifiant.Titre" Variant="Variant.Outlined" Label="Titre" MaxLength="100" />
                 </MudItem>
 
+                <!-- input url -->
+                <MudItem xs="12" sm="12" md="6" lg="6">
+                    <MudTextField @bind-Value="Identifiant.UrlSiteWeb" InputType="InputType.Url" Variant="Variant.Outlined" Label="Url web" MaxLength="500" />
+                </MudItem>
+
                 <!-- input login -->
-                <MudItem xs="12" sm="6" md="6" lg="6">
+                <MudItem xs="12" sm="12" md="12" lg="12">
                     <MudTextField @bind-Value="Identifiant.Login" Variant="Variant.Outlined" Label="Login" Required="true" MaxLength="100" />
                 </MudItem>
 
                 <!-- input mdp -->
-                <MudItem xs="12" sm="6" md="6" lg="6">
-                    <MudTextField @bind-Value="Identifiant.Mdp" InputType="@inputMdp" 
-                                  Variant="Variant.Outlined" Label="Mot de passe" 
-                                  Adornment="Adornment.End"
-                                  AdornmentIcon="@iconMdpOeil"
-                                  OnAdornmentClick="VoirCacherMdp"
-                                  Required="true" MaxLength="100" />
+                <MudItem xs="12" sm="12" md="12" lg="12">
+                    <div style="position: relative">
+                        <MudTextField @bind-Value="Identifiant.Mdp" InputType="@inputMdp"
+                                      Variant="Variant.Outlined" Label="Mot de passe"
+                                      Adornment="Adornment.End"
+                                      AdornmentIcon="@Icons.Material.Filled.Refresh"
+                                      OnAdornmentClick="GenererMdp"
+                                      Required="true" MaxLength="100" />
+
+                        <MudIcon Style="position: absolute; top: 16px; right: 50px; cursor: pointer; z-index: 1; background-color: white" 
+                                 @onclick="ChangerTypeInputMdp" 
+                                 Icon="@(inputMdp == InputType.Password ? Icons.Material.Filled.Visibility : Icons.Material.Filled.VisibilityOff)" />
+                    </div>
+                    
+                </MudItem>
+                
+
+                <!-- generer mdp -->
+                <MudItem xs="12" sm="12" md="12" lg="12">
+                    <MudText Typo="Typo.body1">Paramètres mdp aléatoire</MudText>
+
+                    <MudNumericField @bind-Value="longeurMdp"
+                                     Variant="Variant.Outlined" 
+                                     Label="Longeur mdp" 
+                                     Min="8" />
+
+                    <MudSwitch @bind-Checked="contientCaractereSpeciaux"
+                               Color="Color.Primary"
+                               Label="Caractères spéciaux ?" 
+                               StopClickPropagation="true" />
+
+                    @if(contientCaractereSpeciaux)
+                    {
+                        <MudNumericField @bind-Value="nbCaractereSpeciaux"
+                                         T="int"
+                                         Variant="Variant.Outlined" 
+                                         Label="Nb caractères spéciaux"
+                                         Min="0" />
+                    }
                 </MudItem>
             </MudGrid>
 

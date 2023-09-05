@@ -2,7 +2,9 @@ using gestionnaireMdp.BddModels;
 using gestionnaireMdp.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Components.Web;
 using MudBlazor;
+using System.Security.Cryptography;
 
 namespace gestionnaireMdp.Dialogs;
 
@@ -18,10 +20,31 @@ public partial class DialogAjouterModifierIdentifiant
     EditContext EditContext { get; set; }
 
     InputType inputMdp = InputType.Password;
-    string iconMdpOeil = Icons.Material.Filled.Visibility;
     bool estPourAjouter = false;
+    bool contientCaractereSpeciaux = false;
+
+    int nbCaractereSpeciaux;
+    int longeurMdp = 8;
 
     private void Fermer() => MudDialog.Close();
+
+    void GenererMdp()
+    {
+        Identifiant.Mdp = OutilService.GenererMdp(longeurMdp, contientCaractereSpeciaux, nbCaractereSpeciaux);
+        inputMdp = InputType.Text;
+    }
+
+    void ChangerTypeInputMdp()
+    {
+        if(inputMdp == InputType.Text)
+        {
+            inputMdp = InputType.Password;
+        }
+        else
+        {
+            inputMdp = InputType.Text;
+        }
+    }
 
     protected override void OnInitialized()
     {
@@ -36,18 +59,9 @@ public partial class DialogAjouterModifierIdentifiant
         EditContext = new(Identifiant);
     }
 
-    void VoirCacherMdp()
+    protected override void OnAfterRender(bool firstRender)
     {
-        if(iconMdpOeil == Icons.Material.Filled.VisibilityOff)
-        {
-            iconMdpOeil = Icons.Material.Filled.Visibility;
-            inputMdp = InputType.Password;
-        }
-        else
-        {
-            iconMdpOeil = Icons.Material.Filled.VisibilityOff;
-            inputMdp = InputType.Text;
-        }
+        //GenererMdp();
     }
 
     async Task FormEnvoyerAsync()

@@ -12,7 +12,7 @@ public partial class Index: IAsyncDisposable
 {
     [Inject] IdentifiantService IdentifiantService { get; set; }
     [Inject] CategorieService CategorieService { get; set; }
-    [Inject] OutilService ToastrService { get; set; }
+    [Inject] OutilService OutilService { get; set; }
     [Inject] IJSRuntime JSRuntime { get; set; }
     [Inject] IDialogService DialogService { get; set; }
 
@@ -49,7 +49,7 @@ public partial class Index: IAsyncDisposable
 
     async Task SupprimerAsync(Identifiant _identifiant)
     {
-        bool etat = await ToastrService.MessageConfirmationAsync("Suppression Identifiant", 
+        bool etat = await OutilService.MessageConfirmationAsync("Suppression Identifiant", 
                                                                  $"Supprimer l'indentifiant {_identifiant.Titre} ?");
 
         if(etat)
@@ -59,11 +59,11 @@ public partial class Index: IAsyncDisposable
             if(retour)
             {
                 listeIdentifiant.Remove(_identifiant);
-                ToastrService.AfficherToastr($"{_identifiant.Titre} est supprimé", Severity.Success);
+                OutilService.AfficherToastr($"{_identifiant.Titre} est supprimé", Severity.Success);
             }
             else
             {
-                ToastrService.AfficherToastr("Supression impossible", Severity.Error);
+                OutilService.AfficherToastr("Supression impossible", Severity.Error);
             }
         }
 
