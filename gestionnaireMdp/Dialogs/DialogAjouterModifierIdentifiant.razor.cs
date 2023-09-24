@@ -2,9 +2,8 @@ using gestionnaireMdp.BddModels;
 using gestionnaireMdp.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Components.Web;
 using MudBlazor;
-using System.Security.Cryptography;
+using Outil.Services;
 
 namespace gestionnaireMdp.Dialogs;
 
@@ -16,6 +15,8 @@ public partial class DialogAjouterModifierIdentifiant
 
     [Inject] OutilService OutilService { get; set; }
     [Inject] IdentifiantService IdentifiantService { get; set; }
+    [Inject] ProtectionService ProtectionService { get; set; }
+    [Inject] MotDePasseService MotDePasseService { get; set; }
 
     EditContext EditContext { get; set; }
 
@@ -30,7 +31,7 @@ public partial class DialogAjouterModifierIdentifiant
 
     void GenererMdp()
     {
-        Identifiant.Mdp = OutilService.GenererMdp(longeurMdp, contientCaractereSpeciaux, nbCaractereSpeciaux);
+        Identifiant.Mdp = MotDePasseService.Generer((ushort)longeurMdp, contientCaractereSpeciaux, nbCaractereSpeciaux);
         inputMdp = InputType.Text;
     }
 
@@ -55,6 +56,11 @@ public partial class DialogAjouterModifierIdentifiant
             Identifiant = new();
             Identifiant.UrlSiteWeb = "";
         }
+        else
+        {
+            Identifiant.Login = ProtectionService.Dechiffrer(Identifiant.Login);
+            Identifiant.Mdp = ProtectionService.Dechiffrer(Identifiant.Mdp);
+        }
 
         EditContext = new(Identifiant);
     }
@@ -71,6 +77,9 @@ public partial class DialogAjouterModifierIdentifiant
             OutilService.AfficherToastr("La catégorie est vide", Severity.Warning);
             return;
         }
+
+        Identifiant.Login = ProtectionService.Chiffrer<string>(Identifiant.Login);
+        Identifiant.Mdp = ProtectionService.Chiffrer<string>(Identifiant.Mdp);
 
         if (estPourAjouter)
         {

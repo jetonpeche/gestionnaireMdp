@@ -52,4 +52,8 @@
         <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.5" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\Bibliotheque-outils-cs\Outil\Outil.csproj" />
+    </ItemGroup>
+
 </Project>

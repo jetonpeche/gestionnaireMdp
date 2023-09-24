@@ -5,11 +5,13 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using MudBlazor;
+using Outil.Services;
 
 namespace gestionnaireMdp.Pages;
 
 public partial class Index: IAsyncDisposable
 {
+    [Inject] ProtectionService ProtectionService { get; set; }
     [Inject] IdentifiantService IdentifiantService { get; set; }
     [Inject] CategorieService CategorieService { get; set; }
     [Inject] OutilService OutilService { get; set; }
@@ -121,8 +123,8 @@ public partial class Index: IAsyncDisposable
     async Task OuvrirModalInfosAsync(Identifiant _identifiant)
     {
         string html = "<ul>" +
-                    $"<li>Login: {_identifiant.Login}</li>" +
-                    $"<li>Mot de passe: {_identifiant.Mdp}</li>" +
+                    $"<li>Login: {ProtectionService.Dechiffrer(_identifiant.Login)}</li>" +
+                    $"<li>Mot de passe: {ProtectionService.Dechiffrer(_identifiant.Mdp)}</li>" +
                     $"{(string.IsNullOrEmpty(_identifiant.UrlSiteWeb) ? "<li>Url: <a href='{_identifiant.UrlSiteWeb}'>Liens web</a></li>" : "")}" +
                     "</ul>";
 

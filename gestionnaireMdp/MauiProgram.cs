@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using MudBlazor;
 using MudBlazor.Services;
+using Outil.SDK.DependencyInjection;
 
 namespace gestionnaireMdp
 {
@@ -24,6 +25,16 @@ namespace gestionnaireMdp
                 config.SnackbarConfiguration.VisibleStateDuration = 4000;
                 config.SnackbarConfiguration.HideTransitionDuration = 200;
                 config.SnackbarConfiguration.ShowTransitionDuration = 200;
+            });
+
+            builder.Services.AjouterBoiteOutil(option =>
+            {
+                option.ActiverDonneeService = true;
+                option.ActiverProtectionService = true;
+                option.ActiverMdpService = true;
+
+                option.ProtectionOptions.IVsecret = "2GaF]%[_hB7W4ux8";
+                option.ProtectionOptions.CleSecrete = "qi9-m_6DY.*7853#CTq!6TNcf^fC)C4c";
             });
 
 #if DEBUG
